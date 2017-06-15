@@ -46,9 +46,14 @@ INSTALLED_APPS = [
     'courses',
     'organization',
     'operation',
+    # xadmin后台
     'xadmin',
+    # 表单数据界面美化
     'crispy_forms',
+    # 验证码
     'captcha',
+    # 分页
+    'pure_pagination',
 ]
 AUTH_USER_MODEL = "Users.UserProfile"
 
@@ -77,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.media',
             ],
         },
     },
@@ -141,7 +147,7 @@ STATICFILES_DIRS = (
 )
 
 
-# 发送邮件的配置
+# 发送邮件的配置,账号密码都是mooc讲师的
 
 EMAIL_HOST = "smtp.sina.com"
 EMAIL_PORT = 25
@@ -149,3 +155,6 @@ EMAIL_HOST_USER = "projectsedu@sina.com"
 EMAIL_HOST_PASSWORD = 'admin123'
 EMAIL_USE_TLS = False
 EMAIL_FROM = "projectsedu@sina.com"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
