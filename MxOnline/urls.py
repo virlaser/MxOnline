@@ -22,6 +22,7 @@ from django.views.static import serve
 import xadmin
 
 from Users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
+from Users.views import LogoutView
 from organization.views import OrgView
 from MxOnline.settings import MEDIA_ROOT
 urlpatterns = [
@@ -30,6 +31,7 @@ urlpatterns = [
     url('^$', TemplateView.as_view(template_name="index.html"), name="index"),
     # 这里调用的不是as_view这个句柄,所以要加上()
     url('^login/$', LoginView.as_view(), name="user_login"),
+    url('^logout/$', LogoutView.as_view(), name="user_logout"),
     url('^register/$', RegisterView.as_view(), name="register"),
 
     # 验证码配置
@@ -53,6 +55,9 @@ urlpatterns = [
 
     # 处理media信息的URL
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+
+    # 用户中心配置
+    url(r'^users/', include('Users.urls', namespace="users")),
 
 
 ]
