@@ -9,6 +9,7 @@ from django.views.generic.base import View
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginFrom, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageFrom
@@ -18,7 +19,7 @@ from utils.mixin_utils import LoginRequiredMixin
 from operation.models import UserCourse, UserFavorite, UserMessage
 from organization.models import CourseOrg
 from courses.models import Course
-
+from .models import Banner
 
 # 可以通过邮件登录
 class CustomBackend(ModelBackend):
@@ -38,7 +39,6 @@ class LogoutView(View):
     """
     def get(self, request):
         logout(request)
-        from django.core.urlresolvers import reverse
         return HttpResponseRedirect(reverse("index"))
 
 
@@ -60,7 +60,7 @@ class LoginView(View):
                 if user.is_active:
                     # 根据用户信息生成session_id
                     login(request, user)
-                    return render(request, "index.html")
+                    return HttpResponseRedirect(reverse("index"))
                 else:
                     return render(request, "login.html", {"msg": "用户未激活"})
             else:
@@ -322,6 +322,12 @@ class MyMessageView(LoginRequiredMixin, View):
     def get(self, request):
         all_message = UserMessage.objects.filter(user=request.user.id)
 
+        # 用户进入个人中心后将所有消息置为已读
+        all_unread_messages = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for unread_message in all_unread_messages:
+            unread_message.has_read = True
+            unread_message.save()
+
         # 对我的消息进行分页
         try:
             page = request.GET.get('page', 1)
@@ -334,3 +340,37 @@ class MyMessageView(LoginRequiredMixin, View):
         return render(request, 'usercenter-message.html', {
             "messages": messages,
         })
+
+
+class IndexView(View):
+    """
+    慕学在线网首页
+    """
+    def get(self, request):
+        # 取出轮播图
+        all_banners = Banner.objects.all().order_by('index')
+        courses = Course.objects.filter(is_banner=False)[:6]
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
+        course_orgs = CourseOrg.objects.all()[:15]
+        return render(request, 'index.html', {
+            "all_banners": all_banners,
+            "courses": courses,
+            "banner_courses": banner_courses,
+            "course_orgs": course_orgs,
+        })
+
+
+def page_not_found(request):
+    # 全局404
+    from django.shortcuts import render_to_response
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
+
+
+def page_error(request):
+    # 全局500
+    from django.shortcuts import render_to_response
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response

@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="usercenter-message.html">
+                <a href="{% url 'users:mymessage' %}">
                     <div class="msg-num"><span id="MsgNum">{{ request.user.unread_nums }}</span></div>
                 </a>
 
@@ -94,7 +94,7 @@
 <section>
     <div class="wp">
         <ul class="crumbs">
-            <li><a href="index.html">首页</a>></li>
+            <li><a href="{% url 'index' %}">首页</a>></li>
             <li><a href="{% url "org:org_list" %}">课程机构</a>></li>
             <li>{% block page_path %}机构首页{% endblock %}</li>
         </ul>

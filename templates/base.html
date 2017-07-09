@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="usercenter-message.html">
+                        <a href="{% url 'users:mymessage' %}">
                             <div class="msg-num"><span id="MsgNum">{{ request.user.unread_nums }}</span></div>
                         </a>
                     {% else %}
@@ -56,7 +56,7 @@
 
             <div class="middle">
                 <div class="wp">
-                    <a href="index.html"><img class="fl" src="/static/images/logo.jpg"/></a>
+                    <a href="{% url 'index' %}"><img class="fl" src="/static/images/logo.jpg"/></a>
                     <div class="searchbox fr">
                         <div class="selectContainer fl">
                             <span class="selectOption" id="jsSelectOption" data-value="course">
@@ -104,7 +104,7 @@
     <section>
         <div class="wp">
             <ul class="crumbs">
-                <li><a href="index.html">首页</a>></li>
+                <li><a href="{% url 'index' %}">首页</a>></li>
             </ul>
         </div>
     </section>

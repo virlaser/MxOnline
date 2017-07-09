@@ -22,13 +22,14 @@ from django.views.static import serve
 import xadmin
 
 from Users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
-from Users.views import LogoutView
+from Users.views import LogoutView, IndexView
 from organization.views import OrgView
-from MxOnline.settings import MEDIA_ROOT
+from MxOnline.settings import MEDIA_ROOT, STATIC_ROOT
+
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
 
-    url('^$', TemplateView.as_view(template_name="index.html"), name="index"),
+    url('^$', IndexView.as_view(), name="index"),
     # 这里调用的不是as_view这个句柄,所以要加上()
     url('^login/$', LoginView.as_view(), name="user_login"),
     url('^logout/$', LogoutView.as_view(), name="user_logout"),
@@ -56,8 +57,14 @@ urlpatterns = [
     # 处理media信息的URL
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
+    # 在生产环境下处理静态文件
+    url(r'^static/(?P<path>.*)$', serve, {"document_root": STATIC_ROOT}),
+
     # 用户中心配置
     url(r'^users/', include('Users.urls', namespace="users")),
 
-
 ]
+
+# 全局404,500页面配置
+handler404 = 'Users.views.page_not_found'
+handler500 = 'Users.views.page_error'

@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'uuez#cbjwu7&nywccz^_$uytj!zybxav!6**j(d7hs!ww5jmw&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -156,5 +156,8 @@ EMAIL_HOST_PASSWORD = 'admin123'
 EMAIL_USE_TLS = False
 EMAIL_FROM = "projectsedu@sina.com"
 
+# 静态文件和媒体文件的配置
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
