@@ -1,4 +1,4 @@
-# coding : utf-8
+# coding: utf-8
 
 import xadmin
 
@@ -15,6 +15,8 @@ class CourseOrgAdmin(object):
     list_display = ['name', 'desc', 'click_nums', 'fav_nums']
     search_fields = ['name', 'desc', 'click_nums', 'fav_nums']
     list_filter = ['name', 'desc', 'click_nums', 'fav_nums']
+    # 添加课程的时候不是一下子加载所有课程机构,二是ajax搜索
+    relfield_style = 'fk-ajax'
 
 
 class TeacherAdmin(object):

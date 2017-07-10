@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'uuez#cbjwu7&nywccz^_$uytj!zybxav!6**j(d7hs!ww5jmw&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'captcha',
     # 分页
     'pure_pagination',
+    # 富文本编辑器
+    'DjangoUeditor',
 ]
 AUTH_USER_MODEL = "Users.UserProfile"
 
@@ -160,4 +162,4 @@ EMAIL_FROM = "projectsedu@sina.com"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
