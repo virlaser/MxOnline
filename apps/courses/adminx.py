@@ -35,7 +35,7 @@ class CourseAdmin(object):
     # 富文本编辑器
     style_fields = {"detail": "ueditor"}
     # 从excel导入数据
-    import_excel = True
+    # import_excel = True
 
     # 把轮播课程和非轮播课程分别显示出来
     def queryset(self):
