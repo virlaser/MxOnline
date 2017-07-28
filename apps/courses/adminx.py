@@ -57,29 +57,29 @@ class CourseAdmin(object):
     #         pass
     #     return super(CourseAdmin, self).post(request, args, kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if 'excel' in request.FILES:
-            # 初始化course
-            course = Course()
-            # 读取excel文件
-            data = xlrd.open_workbook(request.FILES['excel'].name)
-            # 获取excel第一个表
-            table = data.sheets()[0]
-            # 获取该表行数
-            nrows = table.nrows
-            # 第一行一般为表头，故从该表第二行开始循环取值
-            for j in range(1, nrows):
-                # 获取机构名称,根据表具体内容调整下标
-                courseorg = table.row_values(j)[0]
-                # 通过excel中机构名称中文向CourseOrg查询外键
-                course.org_id = CourseOrg.objects.get(name=courseorg).id
-                # 获取其他字段值,根据表具体内容调整下标
-                course.name = table.row_values(j)[1]
-                course.desc = table.row_values(j)[2]
-                course.image = table.row_values(j)[3]
-                # 保存数据
-                course.save()
-        return super(CourseAdmin, self).post(request, args, kwargs)
+    # def post(self, request, *args, **kwargs):
+    #     if 'excel' in request.FILES:
+    #         # 初始化course
+    #         course = Course()
+    #         # 读取excel文件
+    #         data = xlrd.open_workbook(request.FILES['excel'].name)
+    #         # 获取excel第一个表
+    #         table = data.sheets()[0]
+    #         # 获取该表行数
+    #         nrows = table.nrows
+    #         # 第一行一般为表头，故从该表第二行开始循环取值
+    #         for j in range(1, nrows):
+    #             # 获取机构名称,根据表具体内容调整下标
+    #             courseorg = table.row_values(j)[0]
+    #             # 通过excel中机构名称中文向CourseOrg查询外键
+    #             course.org_id = CourseOrg.objects.get(name=courseorg).id
+    #             # 获取其他字段值,根据表具体内容调整下标
+    #             course.name = table.row_values(j)[1]
+    #             course.desc = table.row_values(j)[2]
+    #             course.image = table.row_values(j)[3]
+    #             # 保存数据
+    #             course.save()
+    #     return super(CourseAdmin, self).post(request, args, kwargs)
 
 
 class BannerCourseAdmin(object):
